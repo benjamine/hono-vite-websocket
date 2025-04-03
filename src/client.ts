@@ -3,7 +3,7 @@ import { WebSocketApp } from ".";
 
 console.log("hello browser");
 
-const client = hc<WebSocketApp>('http://localhost:8787')
+const client = hc<WebSocketApp>(document.location.origin)
 const ws = client.ws.$ws(0);
 
 ws.addEventListener('open', () => {
