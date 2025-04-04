@@ -1,8 +1,12 @@
+import { createNodeWebSocket } from '@hono/node-ws';
 import { Hono } from 'hono';
-import { upgradeWebSocket } from 'hono/cloudflare-workers';
+// import { upgradeWebSocket } from 'hono/cloudflare-workers';
+import { serve } from '@hono/node-server';
 import { renderer } from './renderer';
 
 const app = new Hono()
+
+const { injectWebSocket, upgradeWebSocket } = createNodeWebSocket({ app })
 
 app.use(renderer)
 
@@ -42,3 +46,10 @@ const wsApp = app.get(
 export type WebSocketApp = typeof wsApp
 
 export default app
+
+const server = serve({
+  ...app,
+  port: 5174,
+});
+
+injectWebSocket(server)

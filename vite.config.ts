@@ -8,6 +8,15 @@ import adapter from '@hono/vite-dev-server/cloudflare'
 // import ssrHotReload from 'vite-plugin-ssr-hot-reload'
 
 export default defineConfig({
+  server: {
+    port: 5173,
+    proxy: {
+      "/ws": {
+        target: "ws://localhost:5174",
+        ws: true,
+      },
+    }
+  },
   plugins: [
     // ssrHotReload(), cloudflare()
     devServer({
